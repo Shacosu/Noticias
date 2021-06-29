@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import NavBar from "./components/NavBar";
+import Form from "./components/Form";
+import NewsList from "./components/NewsList";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const [category, setCategory] = useState("");
+	const [savednews, setNews] = useState([]);
+
+	useEffect(() => {
+		const requestAPI = async () => {
+			const url = `https://saurav.tech/NewsAPI/top-headlines/category/${category}/us.json`;
+			const res = await fetch(url);
+			const newsResponse = await res.json();
+			setNews(newsResponse.articles);
+		};
+		requestAPI();
+	}, [category]);
+	return (
+		<React.Fragment>
+			<NavBar title="Buscador de noticias" />
+			<div className="container white">
+				<Form setCategory={setCategory} />
+				<NewsList savednews={savednews} />
+			</div>
+		</React.Fragment>
+	);
 }
 
 export default App;
+
+// API: https://newsapi.org/v2/top-headlines?country=us&category=general&apiKey=4753b6e0a12541d98166b54a646da599
