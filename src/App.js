@@ -28,5 +28,3 @@ function App() {
 }
 
 export default App;
-
-// API: https://newsapi.org/v2/top-headlines?country=us&category=general&apiKey=4753b6e0a12541d98166b54a646da599
